@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@layer base {
+  .nav-icon {
+    @apply hover:bg-[rgb(241,243,244)];
+  }
+  .nav-title {
+    @apply opacity-0 invisible transition-all duration-500 ease-in-out;
+  }
+  body.nav-active .nav-title {
+    @apply opacity-100 visible;
+  }
+  body.nav-active .nav-icon {
+    @apply hover:bg-transparent;
+  }
+  body.nav-active aside {
+    @apply max-md:shadow-sm;
+  }
+  .nav-button.active div {
+    @apply bg-[rgb(254,239,195)];
+  }
+  body.nav-active .nav-button {
+    @apply min-w-[280px]! hover:bg-[rgb(241,243,244)];
+  }
+  body.nav-active .nav-button.active {
+    @apply bg-[rgb(254,239,195)];
+  }
+  body.nav-active .footnoteWrapper {
+    @apply block!;
+  }
+}
+
+@theme {
+  --font-roboto: "Roboto", sans-serif;
+  --font-product-sans: "Product Sans", sans-serif;
+  --font-google-sans: "Google Sans", sans-serif;
+  --font-google-sans-text: "Google Sans Text", sans-serif;
+}
+
+@font-face {
+  font-family: "Product Sans";
+  display: "swap";
+  src: url("/fonts/Product Sans.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Google Sans";
+  display: "swap";
+  src: url("/fonts/Google Sans.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Google Sans Text";
+  display: "swap";
+  src: url("/fonts/Google Sans Text.woff2") format("woff2");
+}

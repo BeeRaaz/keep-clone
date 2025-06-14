@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="src/style.css" />
+    <title>Google Keep</title>
+  </head>
+  <body>
+    <!-- wrapper -->
+    <div class="w-full relative overflow-clip">
+      <!-- header -->
+      <header
+        class="sticky top-0 z-[9999] p-2"
+        style="box-shadow: inset 0 -1px 0 0 rgb(218, 220, 224)"
+      >
+        <div class="flex items-center gap-2">
+          <!-- nav opener and logo container -->
+          <div class="flex flex-wrap items-center md:min-w-[232px]">
+            <!-- nav opener -->
+            <div>
+              <button
+                aria-label="nav opener"
+                id="nav-opener"
+                class="cursor-pointer p-3 flex justify-center items-center rounded-full hover:bg-[rgba(60,64,67,.08)]"
+              >
+                <svg focusable="false" viewBox="0 0 24 24" class="w-6 h-6">
+                  <path
+                    fill="#5f6368"
+                    d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <!-- logo -->
+            <div>
+              <a
+                href="/"
+                title="Keep"
+                class="font-product-sans flex items-center gap-2"
+              >
+                <div class="w-11 h-auto">
+                  <img src="/logo.png" alt="Keep logo" class="w-full" />
+                </div>
+                <span class="text-[22px] text-[#5f6368]">Keep</span>
+              </a>
+            </div>
+          </div>
+          <!-- search input -->
+          <div class="search-container flex-1 ps-2.5 pe-7.5">
+            <form
+              action="#"
+              id="search-form"
+              class="search-form w-full rounded-[8px] max-w-[760px] bg-[#f1f3f4] relative"
+            >
+              <div class="h-[46px] overflow-hidden ms-[56px] me-[49px]">
+                <label for="search">
+                  <input
+                    type="text"
+                    id="search"
+                    placeholder="Search"
+                    class="block w-full py-[11px] h-full focus:outline-0 font-normal font-google-sans text-base"
+                  />
+                </label>
+              </div>
+              <button
+                type="button"
+                class="px-[5px] bg-none cursor-pointer absolute top-0 left-0"
+              >
+                <svg
+                  focusable="false"
+                  width="40px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#5f6368"
+                  class="p-[8px] m-[3px] rounded-full"
+                >
+                  <path
+                    d="M20.49,19l-5.73-5.73C15.53,12.2,16,10.91,16,9.5C16,5.91,13.09,3,9.5,3S3,5.91,3,9.5C3,13.09,5.91,16,9.5,16 c1.41,0,2.7-0.47,3.77-1.24L19,20.49L20.49,19z M5,9.5C5,7.01,7.01,5,9.5,5S14,7.01,14,9.5S11.99,14,9.5,14S5,11.99,5,9.5z"
+                  ></path>
+                  <path d="M0,0h24v24H0V0z" fill="none"></path>
+                </svg>
+              </button>
+              <button
+                type="button"
+                id="clear-search-btn"
+                class="px-[5px] bg-none cursor-pointer absolute top-0 right-0 invisible"
+              >
+                <svg
+                  focusable="false"
+                  width="40px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#5f6368"
+                  class="p-[8px] m-[3px] rounded-full"
+                >
+                  <path
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  ></path>
+                  <path d="M0 0h24v24H0z" fill="none"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </header>
+      <!-- main container -->
+      <div class="flex" style="height: calc(100vh - var(--headerHeight))">
+        <!-- side nav bar -->
+        <aside
+          class="overflow-hidden transition-all duration-500 ease-in-out w-[80px] flex flex-col h-full z-[10] min-w-min pt-[4px]"
+        >
+          <!-- nav -->
+          <nav aria-label="Main Navigation" class="flex flex-col h-full">
+            <ul class="nav-ul">
+              <!-- nav items will be injected through JS -->
+            </ul>
+          </nav>
+        </aside>
+        <!-- main -->
+        <main class="flex-1 px-5">
+          <section class="pt-[32px]">
+            <!-- note form -->
+            <form
+              id="note-form"
+              class="w-full max-w-[600px] mx-auto rounded-[8px] bg-white border border-[#e0e0e0]"
+              style="
+                box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+                  0 2px 6px 2px rgba(60, 64, 67, 0.15);
+              "
+            >
+              <div class="title-input">
+                <!-- title input -->
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="Title"
+                  aria-label="note title input"
+                  class="w-full font-semibold font-google-sans py-[10px] px-[15px] focus:outline-none hidden"
+                />
+              </div>
+              <!-- content input -->
+              <textarea
+                id="content"
+                placeholder="Take a note..."
+                aria-label="note content input"
+                class="w-full focus:outline-none resize-none pt-3 pb-1 px-4 text-[rgb(32,33,36)] font-roboto"
+                rows="1"
+              ></textarea>
+            </form>
+            <!-- notes container -->
+            <div
+              id="notes-container"
+              class="sm:flex sm:gap-5 sm:justify-center lg:justify-start"
+            ></div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
