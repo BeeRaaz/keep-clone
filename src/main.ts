@@ -43,12 +43,92 @@ form.addEventListener("keydown", (e: KeyboardEvent) => {
 // create note card
 function createNoteCard(note: Note) {
   const card = document.createElement("div");
-  card.className = "p-4 border border-[#e0e0e0] my-4 rounded-lg sm:w-[240px]";
+  card.className =
+    "border border-[#e0e0e0] my-4 rounded-lg sm:w-[240px] flex flex-col h-full group";
   card.id = "note-card";
-  card.innerHTML = `
-      <h2 class="text-lg font-semibold font-google-sans">${note.title}</h2>
-      <p class="text-sm font-roboto">${note.content}</p>
-    `;
+
+  // card title
+  const title = document.createElement("h2");
+  title.className =
+    "text-lg md:text-xl lg:text-2xl font-semibold font-google-sans px-4 pt-2 m-0";
+  title.innerHTML = note.title;
+
+  // card content
+  const content = document.createElement("p");
+  content.className = "text-sm md:text-lg font-roboto py-3 px-4";
+  content.innerHTML = note.content;
+
+  // card quick actions
+  const quickActions = document.createElement("div");
+  quickActions.className =
+    "quick-actions flex flex-wrap items-center my-[4px] mt-auto opacity-0 invisible transition-all duration-[0.218s] ease-in group-hover:opacity-100 group-hover:visible";
+
+  // background color options container
+  const bgColorOptionsContainer = document.createElement("div");
+  bgColorOptionsContainer.className = "relative";
+
+  // actions listing button container
+  const actionListContainer = document.createElement("div");
+  actionListContainer.className = "relative";
+
+  // append action list button container, bg color options container to the quick actions
+  quickActions.appendChild(bgColorOptionsContainer);
+  quickActions.appendChild(actionListContainer);
+
+  // bgColor option button
+  const bgColorOptionBtn = document.createElement("button");
+  bgColorOptionBtn.type = "button";
+  bgColorOptionBtn.className =
+    "cursor-pointer w-[32px] h-[32px] rounded-full mx-[3px] text-[rgb(32,33,36)] opacity-[0.71] hover:opacity-[.87] hover:bg-[rgba(95,99,104,0.157)]";
+  bgColorOptionBtn.style.backgroundImage =
+    "url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDAwIj4KICA8cGF0aCBkPSJNMTIgMjJDNi40OSAyMiAyIDE3LjUxIDIgMTJTNi40OSAyIDEyIDJzMTAgNC4wNCAxMCA5YzAgMy4zMS0yLjY5IDYtNiA2aC0xLjc3Yy0uMjggMC0uNS4yMi0uNS41IDAgLjEyLjA1LjIzLjEzLjMzLjQxLjQ3LjY0IDEuMDYuNjQgMS42N0EyLjUgMi41IDAgMCAxIDEyIDIyem0wLTE4Yy00LjQxIDAtOCAzLjU5LTggOHMzLjU5IDggOCA4Yy4yOCAwIC41LS4yMi41LS41YS41NC41NCAwIDAgMC0uMTQtLjM1Yy0uNDEtLjQ2LS42My0xLjA1LS42My0xLjY1YTIuNSAyLjUgMCAwIDEgMi41LTIuNUgxNmMyLjIxIDAgNC0xLjc5IDQtNCAwLTMuODYtMy41OS03LTgtN3oiLz48Y2lyY2xlIGN4PSI2LjUiIGN5PSIxMS41IiByPSIxLjUiLz4KICA8Y2lyY2xlIGN4PSI5LjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgY3g9IjE0LjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgY3g9IjE3LjUiIGN5PSIxMS41IiByPSIxLjUiLz4KPC9zdmc+Cg==)";
+  bgColorOptionBtn.style.backgroundRepeat = "no-repeat";
+  bgColorOptionBtn.style.backgroundPosition = "center center";
+  bgColorOptionBtn.style.backgroundSize = "18px 18px";
+  bgColorOptionBtn.onclick = (e) => {
+    e.preventDefault();
+    const quickActions = bgColorOptionBtn.closest(
+      ".quick-actions"
+    ) as HTMLElement;
+    quickActions.classList.toggle("opacity-0");
+    quickActions.classList.toggle("invisible");
+  };
+
+  // append bg color options button to the bg color options container
+  bgColorOptionsContainer.appendChild(bgColorOptionBtn);
+
+  // actions listing button
+  const actionListBtn = document.createElement("button");
+  actionListBtn.type = "button";
+  actionListBtn.className =
+    "cursor-pointer w-[32px] h-[32px] rounded-full mx-[3px] text-[rgb(32,33,36)] opacity-[0.71] hover:opacity-[.87] hover:bg-[rgba(95,99,104,0.157)]";
+  actionListBtn.style.backgroundImage =
+    "url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjEiIHk9IjBweCIgeD0iMHB4IiB2aWV3Qm94PSIwIDAgMTggMTgiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE4IDE4IiAgZmlsbD0iIzAwMCI+CiAgPHBhdGggZD0ibTkgNS41YzEgMCAxLjgtMC44IDEuOC0xLjhzLTAuOC0xLjctMS44LTEuNy0xLjggMC44LTEuOCAxLjggMC44IDEuNyAxLjggMS43em0wIDEuN2MtMSAwLTEuOCAwLjgtMS44IDEuOHMwLjggMS44IDEuOCAxLjggMS44LTAuOCAxLjgtMS44LTAuOC0xLjgtMS44LTEuOHptMCA1LjNjLTEgMC0xLjggMC44LTEuOCAxLjhzMC44IDEuNyAxLjggMS43IDEuOC0wLjggMS44LTEuOC0wLjgtMS43LTEuOC0xLjd6Ii8+Cjwvc3ZnPgo=)";
+  actionListBtn.style.backgroundRepeat = "no-repeat";
+  actionListBtn.style.backgroundPosition = "center center";
+  actionListBtn.style.backgroundSize = "18px 18px";
+
+  // append actions listing button to the actions listing container
+  actionListContainer.appendChild(actionListBtn);
+
+  // append title to card
+  if (note.title) {
+    card.appendChild(title);
+  }
+  // append content to card
+  if (note.content) {
+    card.appendChild(content);
+  }
+  // append quick actions to card
+  card.appendChild(quickActions);
+
+  // card.innerHTML = `
+  //     <h2 class="text-lg font-semibold font-google-sans">${note.title}</h2>
+  //     <p class="text-sm font-roboto">${note.content}</p>
+  //     <div class="">
+  //     <button></button>
+  //     </div>
+  //   `;
   return card;
 }
 
@@ -124,6 +204,8 @@ function initFullForm() {
   document?.addEventListener("click", (e) => {
     if (!form?.contains(e.target as Node)) {
       titleInput?.classList.add("hidden");
+      titleInput.value = "";
+      contentInput.value = "";
     }
   });
 }
@@ -158,6 +240,8 @@ function initSearchInput() {
       const query = searchInput.value.toLowerCase();
       clearSearchBtn?.classList.remove("invisible");
 
+      form.classList.add("hidden");
+
       const filtered = notes.filter(
         (note) =>
           note.title.toLowerCase().includes(query) ||
@@ -167,6 +251,7 @@ function initSearchInput() {
       renderNotes(filtered);
     } else {
       clearSearchBtn?.classList.add("invisible");
+      form.classList.remove("hidden");
       renderNotes(getNotes());
     }
   });
@@ -175,6 +260,9 @@ function initSearchInput() {
     e.preventDefault();
     searchInput.value = "";
     clearSearchBtn.classList.add("invisible");
+    if (form.classList.contains("hidden")) {
+      form.classList.remove("hidden");
+    }
     renderNotes(getNotes());
   });
 }
